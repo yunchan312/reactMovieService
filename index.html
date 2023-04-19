@@ -8,20 +8,28 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel">
     const root = document.getElementById("root");
-    let counter = 0;
-    function countUp() {
-      counter = counter + 1;
-      render();
-    }
-    function render() {
-      ReactDOM.render(<Container />, root);
-    }
-    const Container = () => (
+    function App() {
+      const [minutes, setMinutes] = React.useState();
+      const onChange = (event) => {
+        setMinutes(event.target.value);
+      };
+      return (
       <div>
-        <h3>Total Clicks: {counter}</h3>
-        <button onClick={countUp}>Click me</button>
+        <h1>Super Converter</h1>
+        <label htmlfor="minutes">Minutes</label>
+        <input 
+          value={minutes}
+          id="minutes"
+          placeholder="Minutes"
+          type="number"
+          onChange={onChange}
+        />
+        <h4>You want to convert {minutes} min?</h4>
+        <label htmlfor="hours">Hours</label>
+        <input value={minutes/60} id="hours" placeholder="Hours" type="number"/>
       </div>
-    );
-    render();
+      );
+    }
+    ReactDOM.render(<App />, root);
   </script>
 </html>
