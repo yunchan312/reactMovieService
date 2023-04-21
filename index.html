@@ -7,64 +7,34 @@
   <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel">
-    const root = document.getElementById("root");
-    function MinutesToHours() {
-      const [minutes, setMinutes] = React.useState();
-      const [flipped, setFlipped] = React.useState(false);
-      const onChange = (event) => {
-        setMinutes(event.target.value);
-      };
-      const reset = () => setMinutes(0);
-      const onFlip = () => setFlipped((current)=> !current); 
+    function Btn({ text, changeValue }) {
       return (
-      <div>
-        <div>
-          <label htmlfor="minutes">Minutes</label>
-          <input 
-            value={flipped ? minutes*60 : minutes}
-            id="minutes"
-            placeholder="Minutes"
-            type="number"
-            onChange={onChange}
-            disabled={flipped === true}
-          />
-        </div>
-        <div>
-          <label htmlfor="hours">Hours</label>
-          <input
-            value={flipped ? minutes : Math.round(minutes/60)}
-            id="hours"
-            placeholder="Hours"
-            type="number" 
-            onChange={onChange}
-            disabled = {flipped === false}/>
-        </div>
-        <button onClick={reset}>Reset</button>
-        <button onClick={onFlip}>Flip</button>
-      </div>
+        <button
+          style={{
+            backgroundColor: "tomato",
+            color: "white",
+            padding: "10px 20px",
+            borderRadius: 10,
+            border: 0,
+          }}
+          onClick={changeValue}
+        >
+          {text}
+        </button>
       );
     }
-    function KmToMiles(){
-      return <h3>KM 2 M</h3>
-    }
-    function App(){
-      const [index, setIndex] = React.useState("0");
-      const onSelect = (event) => {
-        setIndex(event.target.value);
-      };
-      return(
+    const MemorizedBtn = React.memo(Btn);
+    function App() {
+      const [value, setValue] = React.useState("Save Changes");
+      const changeValue = () => setValue("Revert Changes");
+      return (
         <div>
-          <h1>Super Converter</h1>
-          <select onChange={onSelect}>
-            <option value="0">Minutes & Hours</option>
-            <option value="1">Km & Miles</option>
-          </select>
-          <hr />
-          {index === "0" ? <MinutesToHours /> : null}
-          {index === "1" ? <KmToMiles /> : null}
+          <MemorizedBtn text={value} changeValue={changeValue} />
+          <MemorizedBtn text="Continue" />
         </div>
       );
     }
+    const root = document.getElementById("root");
     ReactDOM.render(<App />, root);
   </script>
 </html>
